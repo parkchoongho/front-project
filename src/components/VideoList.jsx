@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 const VideoList = props => {
   const { videos } = props;
-  console.log(videos);
 
   return videos.map(video => (
     <video
