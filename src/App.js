@@ -8,6 +8,7 @@ import JoinForm from "./components/JoinForm";
 import LoginForm from "./components/LoginForm";
 import Logout from "./components/Logout";
 import UploadForm from "./components/UploadForm";
+import Profile from "./components/Profile";
 import auth from "./components/services/authService";
 
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -33,9 +34,10 @@ class App extends Component {
 
   render() {
     const { data } = this.state;
+    const { user } = this.state;
     return (
       <React.Fragment>
-        <Header user={this.state.user} />
+        <Header user={user} />
 
         <div className="content">
           <Switch>
@@ -43,7 +45,8 @@ class App extends Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />
             <Route path="/upload" component={UploadForm} />
-            <Route path="/" render={props => <VideoList videos={data} />} />
+            <Route path="/profile" render={() => <Profile user={user} />} />
+            <Route path="/" render={() => <VideoList videos={data} />} />
           </Switch>
         </div>
         <Footer />

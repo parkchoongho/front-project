@@ -44,9 +44,29 @@ class Form extends Component {
     else delete errors[input.name];
 
     const data = { ...this.state.data };
+
     data[input.name] = input.value;
+
+    if (input.name === "videoFile") {
+      data[input.name] = input.files[0];
+    }
+
     this.setState({ data, errors });
   };
+
+  renderVideoInput(name, label, type = "file") {
+    const { errors } = this.state;
+
+    return (
+      <Input
+        type={type}
+        name={name}
+        label={label}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
 
   renderInput(name, label, type = "text") {
     const { data, errors } = this.state;

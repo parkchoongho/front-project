@@ -1,9 +1,9 @@
 import React from "react";
 import Joi from "joi-browser";
-import VideoForm from "./common/videoForm";
+import Form from "./common/form";
 import { uploadVideo } from "./services/videoService";
 
-class UploadForm extends VideoForm {
+class UploadForm extends Form {
   state = {
     data: { title: "", description: "", videoFile: "" },
     errors: {}
@@ -26,7 +26,7 @@ class UploadForm extends VideoForm {
         data: { title, description, videoFile }
       } = this.state;
 
-      const response = await uploadVideo(title, videoFile, description);
+      await uploadVideo(title, videoFile, description);
       window.location = "/";
     } catch (error) {}
   };
