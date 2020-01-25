@@ -3,6 +3,14 @@ import { apiUrl } from "../config.json";
 
 const apiEndPoint = `${apiUrl}/video`;
 
+function getMovieUrl(id) {
+  return `${apiEndPoint}/${id}`;
+}
+
+export function getVideo(videoId) {
+  return http.get(getMovieUrl(videoId));
+}
+
 export function uploadVideo(title, file, description) {
   const formData = new FormData();
 

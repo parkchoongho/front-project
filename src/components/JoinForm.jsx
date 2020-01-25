@@ -1,5 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
+import { Redirect } from "react-router-dom";
 import Form from "./common/form";
 import { register } from "./services/userService";
 import auth from "./services/authService";
@@ -36,6 +37,7 @@ class JoinForm extends Form {
   };
 
   render() {
+    if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
       <div>
         <h1>Join</h1>

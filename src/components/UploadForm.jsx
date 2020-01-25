@@ -2,6 +2,8 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
 import { uploadVideo } from "./services/videoService";
+import auth from "./services/authService";
+import { Redirect } from "react-router-dom";
 
 class UploadForm extends Form {
   state = {
@@ -32,6 +34,7 @@ class UploadForm extends Form {
   };
 
   render() {
+    if (!auth.getCurrentUser()) return <Redirect to="/" />;
     return (
       <div>
         <h1>Upload</h1>

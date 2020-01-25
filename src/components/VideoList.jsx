@@ -1,14 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const VideoList = props => {
-  const { videos } = props;
-
+const VideoList = ({ videos }) => {
   return videos.map(video => (
-    <video
-      src={"http://localhost:4000/" + video.fileUrl}
-      key={video._id}
-      controls={true}
-    ></video>
+    <Link to={`/video/${video._id}`} key={video._id}>
+      <video src={video.fileUrl} controls={true}></video>
+    </Link>
   ));
 };
 

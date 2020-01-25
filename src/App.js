@@ -13,6 +13,7 @@ import auth from "./components/services/authService";
 
 import "@fortawesome/fontawesome-free/css/all.css";
 import axios from "axios";
+import VideoDetail from "./components/VideoDetail";
 
 class App extends Component {
   state = {
@@ -35,6 +36,7 @@ class App extends Component {
   render() {
     const { data } = this.state;
     const { user } = this.state;
+
     return (
       <React.Fragment>
         <Header user={user} />
@@ -46,6 +48,10 @@ class App extends Component {
             <Route path="/logout" component={Logout} />
             <Route path="/upload" component={UploadForm} />
             <Route path="/profile" render={() => <Profile user={user} />} />
+            <Route
+              path="/video/:id"
+              render={props => <VideoDetail {...props} />}
+            />
             <Route path="/" render={() => <VideoList videos={data} />} />
           </Switch>
         </div>
