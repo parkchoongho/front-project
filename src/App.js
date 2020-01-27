@@ -47,7 +47,11 @@ class App extends Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />
             <Route path="/upload" component={UploadForm} />
-            <Route path="/profile" render={() => <Profile user={user} />} />
+            <Route path="/profile" render={props => <Profile {...props} />} />
+            <Route
+              path="/users/:id"
+              render={props => <UserInfo {...props} />}
+            />
             <Route
               path="/video/:id"
               render={props => <VideoDetail {...props} />}
