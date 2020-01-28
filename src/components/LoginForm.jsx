@@ -13,12 +13,10 @@ class LoginForm extends Form {
   schema = {
     email: Joi.string()
       .email()
-      .required()
-      .label("Email"),
+      .required(),
     password: Joi.string()
       .required()
       .min(8)
-      .label("Password")
   };
 
   doSubmit = async () => {
@@ -32,11 +30,10 @@ class LoginForm extends Form {
   render() {
     if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
-      <div>
-        <h1>Login</h1>
+      <div className="form-container">
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("email", "Email")}
-          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("email")}
+          {this.renderInput("password", "password")}
           {this.renderButton("Login")}
         </form>
       </div>

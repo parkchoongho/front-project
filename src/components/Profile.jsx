@@ -2,56 +2,62 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import auth from "./services/authService";
 import { Redirect } from "react-router-dom";
-import { getUserInfo } from "./services/userService";
+import { getLoggedUserInfo } from "./services/userService";
 import VideoList from "./VideoList";
 
 class Profile extends Component {
-  state = { videos: [] };
+  state = { videos: [], isLoading: true };
 
-  componentDidMount() {
+  async componentDidMount() {
     try {
-      this.getUserVideos();
+      this.getLoggedUserVideos();
     } catch (error) {
       console.log(error);
     }
   }
 
-  async getUserVideos() {
+  async getLoggedUserVideos() {
     try {
       const {
         data: {
           user: { videos }
         }
-      } = await getUserInfo();
+      } = await getLoggedUserInfo();
 
-      this.setState({ videos });
+      this.setState({ videos, isLoading: false });
     } catch (error) {
       console.log(error);
     }
   }
 
   render() {
-    const user = auth.getCurrentUser();
-    const { videos } = this.state;
+    const loggedUser = auth.getCurrentUser();
+    const { videos, isLoading } = this.state;
 
-    if (!user) return <Redirect to="/" />;
-    if (user) {
+    if (!loggedUser) return <Redirect to="/" />;
+    if (loggedUser) {
       return (
         <React.Fragment>
-          <div className="user-profile">
-            <div className="profile__header">
-              <h4 className="profile__username">{user.name}</h4>
-            </div>
-          </div>
-          <div className="user-profile__btns">
-            <Link to="/profile/edit">
-              <button>Edit Profile</button>
-            </Link>
-            <Link to="/profile/password">
-              <button>Change Password</button>
-            </Link>
-          </div>
-          <VideoList videos={videos} />
+          {isLoading ? (
+            "Loading..."
+          ) : (
+            <React.Fragment>
+              <div className="user-profile">
+                <div className="profile__header">
+                  <h4 className="profile__username">{loggedUser.name}</h4>
+                </div>
+              </div>
+              <div className="user-profile__btns">
+                <Link to="/profile/edit">
+                  <button>Edit Profile</button>
+                </Link>
+                <Link to="/profile/password">
+                  <button>Change Password</button>
+                </Link>
+              </div>
+              <VideoList videos={videos} />
+            </React.Fragment>
+          )}
         </React.Fragment>
       );
     }

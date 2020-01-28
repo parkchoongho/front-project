@@ -24,3 +24,7 @@ export function uploadVideo(title, file, description) {
     }
   });
 }
+
+export function editVideo(title, description, id) {
+  return http.patch(`${apiEndPoint}/${id}/edit`, { title, description });
+}

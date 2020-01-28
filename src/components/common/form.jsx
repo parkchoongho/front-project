@@ -4,11 +4,6 @@ import Joi from "joi-browser";
 import Input from "./input";
 
 class Form extends Component {
-  state = {
-    data: {},
-    errors: {}
-  };
-
   validate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
@@ -32,7 +27,10 @@ class Form extends Component {
     const errors = this.validate();
 
     this.setState({ errors: errors || {} });
-    if (errors) return;
+    if (errors) {
+      console.log(errors);
+      return;
+    }
 
     this.doSubmit();
   };
@@ -54,21 +52,20 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
-  renderVideoInput(name, label, type = "file") {
+  renderVideoInput(name, type = "file") {
     const { errors } = this.state;
 
     return (
       <Input
         type={type}
         name={name}
-        label={label}
         onChange={this.handleChange}
         error={errors[name]}
       />
     );
   }
 
-  renderInput(name, label, type = "text") {
+  renderInput(name, type = "text") {
     const { data, errors } = this.state;
 
     return (
@@ -76,18 +73,13 @@ class Form extends Component {
         type={type}
         name={name}
         value={data[name]}
-        label={label}
         onChange={this.handleChange}
         error={errors[name]}
       />
     );
   }
   renderButton(label) {
-    return (
-      <button disabled={this.validate()} className="btn btn-primary">
-        {label}
-      </button>
-    );
+    return <button disabled={this.validate()}>{label}</button>;
   }
 }
 

@@ -1,17 +1,20 @@
 import http from "./httpService";
 import { apiUrl } from "../config.json";
 
-const apiAuthEndPoint = `${apiUrl}/auth`;
-const apiUserInfoEndPoint = `${apiUrl}/my`;
+const apiEndPoint = apiUrl;
 
 export function register(user) {
-  return http.post(`${apiAuthEndPoint}/join`, {
+  return http.post(`${apiEndPoint}/auth/join`, {
     name: user.name,
     email: user.email,
     password: user.password
   });
 }
 
-export function getUserInfo() {
-  return http.get(`${apiUserInfoEndPoint}/page`);
+export function getLoggedUserInfo() {
+  return http.get(`${apiEndPoint}/my/page`);
+}
+
+export function getUserInfo(id) {
+  return http.get(`${apiEndPoint}/users/${id}`);
 }

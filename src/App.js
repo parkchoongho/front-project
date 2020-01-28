@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Route, Switch } from "react-router-dom";
+
+import auth from "./components/services/authService";
 
 import Header from "./components/Header";
 import VideoList from "./components/VideoList";
@@ -9,15 +12,15 @@ import LoginForm from "./components/LoginForm";
 import Logout from "./components/Logout";
 import UploadForm from "./components/UploadForm";
 import Profile from "./components/Profile";
-import auth from "./components/services/authService";
-
-import "@fortawesome/fontawesome-free/css/all.css";
-import axios from "axios";
 import VideoDetail from "./components/VideoDetail";
+import UserInfo from "./components/UserInfo";
+import EditVideo from "./components/EditVideo";
 
 class App extends Component {
   state = {
-    data: []
+    user: {},
+    data: [],
+    isLoading: true
   };
 
   async componentDidMount() {
@@ -26,40 +29,50 @@ class App extends Component {
       const {
         result: { videos }
       } = data;
-      this.setState({ data: videos });
-
       const user = auth.getCurrentUser();
-      this.setState({ user });
+      this.setState({ data: videos, isLoading: false, user });
     } catch (error) {}
   }
 
   render() {
-    const { data } = this.state;
-    const { user } = this.state;
+    const { data, user, isLoading } = this.state;
 
     return (
       <React.Fragment>
-        <Header user={user} />
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <React.Fragment>
+            <Header user={user} />
 
-        <div className="content">
-          <Switch>
-            <Route path="/join" component={JoinForm} />
-            <Route path="/login" component={LoginForm} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/upload" component={UploadForm} />
-            <Route path="/profile" render={props => <Profile {...props} />} />
-            <Route
-              path="/users/:id"
-              render={props => <UserInfo {...props} />}
-            />
-            <Route
-              path="/video/:id"
-              render={props => <VideoDetail {...props} />}
-            />
-            <Route path="/" render={() => <VideoList videos={data} />} />
-          </Switch>
-        </div>
-        <Footer />
+            <div className="main">
+              <Switch>
+                <Route path="/join" component={JoinForm} />
+                <Route path="/login" component={LoginForm} />
+                <Route path="/logout" component={Logout} />
+                <Route path="/upload" component={UploadForm} />
+                <Route
+                  path="/profile"
+                  render={props => <Profile {...props} />}
+                />
+                <Route
+                  path="/users/:id"
+                  render={props => <UserInfo {...props} />}
+                />
+                <Route
+                  path="/video/:id/edit"
+                  render={props => <EditVideo {...props} />}
+                />
+                <Route
+                  path="/video/:id"
+                  render={props => <VideoDetail {...props} />}
+                />
+                <Route path="/" render={() => <VideoList videos={data} />} />
+              </Switch>
+            </div>
+            <Footer />
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

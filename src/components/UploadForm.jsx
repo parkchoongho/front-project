@@ -36,12 +36,11 @@ class UploadForm extends Form {
   render() {
     if (!auth.getCurrentUser()) return <Redirect to="/" />;
     return (
-      <div>
-        <h1>Upload</h1>
+      <div className="form-container">
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("title", "Title")}
-          {this.renderInput("description", "Description")}
-          {this.renderVideoInput("videoFile", "VideoFile")}
+          {this.renderInput("title")}
+          {this.renderInput("description")}
+          {this.renderVideoInput("videoFile")}
           {this.renderButton("Upload")}
         </form>
       </div>

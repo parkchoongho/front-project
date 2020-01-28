@@ -14,16 +14,13 @@ class JoinForm extends Form {
   schema = {
     name: Joi.string()
       .required()
-      .min(5)
-      .label("Name"),
+      .min(5),
     email: Joi.string()
       .required()
-      .email()
-      .label("Email"),
+      .email(),
     password: Joi.string()
       .required()
       .min(8)
-      .label("Password")
   };
 
   doSubmit = async () => {
@@ -33,18 +30,19 @@ class JoinForm extends Form {
       } = await register(this.state.data);
       auth.loginWithJwt(token);
       window.location = "/";
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
     if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
-      <div>
-        <h1>Join</h1>
+      <div className="form-container">
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("name", "Name")}
-          {this.renderInput("email", "Email")}
-          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("name")}
+          {this.renderInput("email")}
+          {this.renderInput("password", "password")}
           {this.renderButton("Join")}
         </form>
       </div>
