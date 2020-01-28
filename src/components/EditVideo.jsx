@@ -1,7 +1,9 @@
 import React from "react";
 import Joi from "joi-browser";
-import { editVideo, getVideo } from "./services/videoService";
+import { editVideo, getVideo, deletetVideo } from "./services/videoService";
 import Form from "./common/form";
+import auth from "./services/authService";
+import { Redirect } from "react-router-dom";
 
 class EditVideo extends Form {
   state = {
@@ -10,6 +12,7 @@ class EditVideo extends Form {
       description: ""
     },
     errors: {},
+    authorId: "",
     isLoading: true
   };
 
@@ -34,16 +37,31 @@ class EditVideo extends Form {
       const {
         data: {
           result: {
-            video: { title, description }
+            video: {
+              title,
+              description,
+              creator: { _id: authorId }
+            }
           }
         }
       } = await getVideo(videoId);
 
-      this.setState({ data: { title, description }, isLoading: false });
+      this.setState({
+        authorId,
+        data: { title, description },
+        isLoading: false
+      });
     } catch (error) {
       console.log(error);
     }
   }
+
+  handleDelete = async () => {
+    const videoId = this.props.match.params.id;
+
+    await deletetVideo(videoId);
+    window.location = "/";
+  };
 
   doSubmit = async () => {
     try {
@@ -54,18 +72,32 @@ class EditVideo extends Form {
       const videoId = this.props.match.params.id;
       await editVideo(title, description, videoId);
       window.location = `/video/${videoId}`;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
+    const { isLoading, authorId } = this.state;
+
+    const user = auth.getCurrentUser();
+
+    if (!user || (authorId && user.id !== authorId)) return <Redirect to="/" />;
     return (
-      <div className="form-container">
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("title")}
-          {this.renderInput("description")}
-          {this.renderButton("Edit Video")}
-        </form>
-      </div>
+      <React.Fragment>
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <div className="form-container">
+            <form onSubmit={this.handleSubmit}>
+              {this.renderInput("title")}
+              {this.renderInput("description")}
+              {this.renderButton("Edit Video")}
+            </form>
+            <button onClick={this.handleDelete}>Delete Video</button>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
 }
