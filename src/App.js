@@ -15,6 +15,7 @@ import Profile from "./components/Profile";
 import VideoDetail from "./components/VideoDetail";
 import UserInfo from "./components/UserInfo";
 import EditVideo from "./components/EditVideo";
+import EditProfile from "./components/EditProfile";
 
 class App extends Component {
   state = {
@@ -51,6 +52,10 @@ class App extends Component {
                 <Route path="/login" component={LoginForm} />
                 <Route path="/logout" component={Logout} />
                 <Route path="/upload" component={UploadForm} />
+                <Route
+                  path="/profile/edit"
+                  render={props => <EditProfile {...props} />}
+                />
                 <Route
                   path="/profile"
                   render={props => <Profile {...props} />}

@@ -18,3 +18,10 @@ export function getLoggedUserInfo() {
 export function getUserInfo(id) {
   return http.get(`${apiEndPoint}/users/${id}`);
 }
+
+export function editUser(name, email) {
+  return http.patch(`${apiEndPoint}/my/edit`, {
+    name,
+    email
+  });
+}
