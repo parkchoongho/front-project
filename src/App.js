@@ -16,6 +16,7 @@ import VideoDetail from "./components/VideoDetail";
 import UserInfo from "./components/UserInfo";
 import EditVideo from "./components/EditVideo";
 import EditProfile from "./components/EditProfile";
+import EditPassword from "./components/EditPassword";
 
 class App extends Component {
   state = {
@@ -55,6 +56,10 @@ class App extends Component {
                 <Route
                   path="/profile/edit"
                   render={props => <EditProfile {...props} />}
+                />
+                <Route
+                  path="/profile/password"
+                  render={props => <EditPassword {...props} />}
                 />
                 <Route
                   path="/profile"

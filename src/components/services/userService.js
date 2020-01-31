@@ -25,3 +25,11 @@ export function editUser(name, email) {
     email
   });
 }
+
+export function changePassword(curPassword, password) {
+  console.log(curPassword, password);
+  return http.patch(`${apiEndPoint}/my/changePassword`, {
+    curPassword,
+    password
+  });
+}

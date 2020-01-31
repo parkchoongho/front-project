@@ -1,5 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
+import { Redirect } from "react-router-dom";
 import Form from "./common/form";
 import { editUser } from "./services/userService";
 import auth from "./services/authService";
@@ -8,7 +9,7 @@ class EditProfile extends Form {
   state = {
     data: { name: "", email: "" },
     errors: {},
-    loading: false
+    loading: true
   };
 
   schema = {
@@ -26,6 +27,7 @@ class EditProfile extends Form {
 
   populateUser() {
     const user = auth.getCurrentUser();
+    if (!user) return;
     const { name, email } = user;
     this.setState({ data: { name, email }, isLoading: false });
   }
@@ -34,23 +36,36 @@ class EditProfile extends Form {
     const { name, email } = this.state.data;
 
     try {
-      await editUser(name, email);
+      const {
+        data: {
+          result: { token }
+        }
+      } = await editUser(name, email);
       auth.logout();
-      window.location = "/";
+      auth.loginWithJwt(token);
+      window.location = "/profile";
     } catch (error) {
       console.log(error);
     }
   };
 
   render() {
+    const { loading } = this.state;
+    if (!auth.getCurrentUser()) return <Redirect to="/" />;
     return (
-      <div className="form-container">
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("name")}
-          {this.renderInput("email")}
-          {this.renderButton("Edit")}
-        </form>
-      </div>
+      <>
+        {loading ? (
+          "Loading..."
+        ) : (
+          <div className="form-container">
+            <form onSubmit={this.handleSubmit}>
+              {this.renderInput("name")}
+              {this.renderInput("email")}
+              {this.renderButton("Edit")}
+            </form>
+          </div>
+        )}
+      </>
     );
   }
 }
