@@ -27,7 +27,9 @@ class App extends Component {
 
   async componentDidMount() {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/video/all");
+      const { data } = await axios.get(
+        "https://wetube-api.herokuapp.com/api/video/all"
+      );
       const {
         result: { videos }
       } = data;

@@ -50,11 +50,11 @@ class EditProfile extends Form {
   };
 
   render() {
-    const { loading } = this.state;
+    const { isLoading } = this.state;
     if (!auth.getCurrentUser()) return <Redirect to="/" />;
     return (
       <>
-        {loading ? (
+        {isLoading ? (
           "Loading..."
         ) : (
           <div className="form-container">
