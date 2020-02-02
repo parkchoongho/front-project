@@ -51,7 +51,7 @@ class UserInfo extends Component {
           ) : (
             <React.Fragment>
               <div className="user-profile">
-                <div className="profile__header">
+                <div className="user-profile__header">
                   <h4 className="profile__username">{user.name}</h4>
                 </div>
               </div>
