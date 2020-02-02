@@ -78,8 +78,7 @@ summary,
 time,
 mark,
 audio,
-video,
-#root {
+video {
     margin: 0;
     padding: 0;
     border: 0;
@@ -88,6 +87,7 @@ video,
     vertical-align: baseline;
 }
 
+/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -116,6 +116,14 @@ q {
     quotes: none;
 }
 
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: "";
+    content: none;
+}
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -134,9 +142,9 @@ input {
 input {
     border: none;
     box-sizing: border-box;
-}
 
-input:focus,
-input:active {
-    outline: none;
+    &:focus,
+    &:active {
+        outline: none;
+    }
 }

@@ -49,7 +49,7 @@ class App extends Component {
           <React.Fragment>
             <Header user={user} />
 
-            <div className="main">
+            <main className="main">
               <Switch>
                 <Route path="/join" component={JoinForm} />
                 <Route path="/login" component={LoginForm} />
@@ -81,7 +81,7 @@ class App extends Component {
                 />
                 <Route path="/" render={() => <VideoList videos={data} />} />
               </Switch>
-            </div>
+            </main>
             <Footer />
           </React.Fragment>
         )}

@@ -43,18 +43,19 @@ class Profile extends Component {
           ) : (
             <React.Fragment>
               <div className="user-profile">
-                <div className="profile__header">
+                <div className="user-profile__header">
                   <h4 className="profile__username">{loggedUser.name}</h4>
                 </div>
+                <div className="user-profile__btns">
+                  <Link to="/profile/edit">
+                    <button>Edit Profile</button>
+                  </Link>
+                  <Link to="/profile/password">
+                    <button>Change Password</button>
+                  </Link>
+                </div>
               </div>
-              <div className="user-profile__btns">
-                <Link to="/profile/edit">
-                  <button>Edit Profile</button>
-                </Link>
-                <Link to="/profile/password">
-                  <button>Change Password</button>
-                </Link>
-              </div>
+
               <VideoList videos={videos} />
             </React.Fragment>
           )}
