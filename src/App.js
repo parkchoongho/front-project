@@ -22,6 +22,7 @@ class App extends Component {
   state = {
     user: {},
     data: [],
+    query: "",
     isLoading: true
   };
 
@@ -51,6 +52,10 @@ class App extends Component {
 
             <main className="main">
               <Switch>
+                <Route
+                  path="/search"
+                  render={props => <VideoList videos={data} {...props} />}
+                />
                 <Route path="/join" component={JoinForm} />
                 <Route path="/login" component={LoginForm} />
                 <Route path="/logout" component={Logout} />

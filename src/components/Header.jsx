@@ -11,7 +11,7 @@ const Header = ({ user }) => {
           </Link>
         </div>
         <div className="header__column">
-          <form action="" method="get">
+          <form action="/search" method="get">
             <input type="text" name="searchingBy" placeholder="Search Video" />
           </form>
         </div>
